@@ -5,9 +5,14 @@ Example: https://openapi.programming-hero.com/api/phones?search=iphone
 Phone detail url:
 URL Format: https://openapi.programming-hero.com/api/phone/${id}
 
+
 Example: https://openapi.programming-hero.com/api/phone/apple_iphone_13_pro_max-11089 */
 
+
+
+const resultContainer = document.getElementById('show-result');//clearing the ui after entering with new phone name for search
 const searchBtn = () => {
+    resultContainer.textContent = "";
     const getInput = document.getElementById('input-feild');
     const searchText = getInput.value;//taking the input value from site
     fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
@@ -18,7 +23,7 @@ const searchBtn = () => {
 
 const showDetails = detail => {
     console.log(detail);
-    const resultContainer = document.getElementById('show-result');
+
     const notFound = document.getElementById('item-not-found');
     notFound.textContent = '';
     if (detail.status === false) {
@@ -29,6 +34,8 @@ const showDetails = detail => {
 
     (detail.data).forEach((detail) => {
         console.log(detail)
+        // const stringify = JSON.stringify(detail);
+        // console.log('dsjk', stringify)
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -37,14 +44,23 @@ const showDetails = detail => {
                     <div class="card-body">
                         <h5 class="card-title">Name: ${detail.phone_name}</h5>
                         <h5>Brand: ${detail.brand}</h5>
-                        <a href="${''}" class="btn btn-primary">Show details</a>
+                        <a  class="btn btn-primary"  onclick="getPhoneId('${detail.slug}')">Show details</a>
                     </div>
-                    </div>
-
-        `
+                    </div> `
         //appending div to the body
         resultContainer.appendChild(div)
-    })
+    });
+};
 
+const getPhoneId = id => {
+    // console.log(id);
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    fetch(url)
+        .then(res => res.json())
+        .then(data => displayFullDetals(data))
+};
 
+//taking function for display single phone full details
+const displayFullDetals = data => {
+    // console.log(data)
 }
