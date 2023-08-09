@@ -1,6 +1,10 @@
 const getInput = document.getElementById('input-feild');
 const resultContainer = document.getElementById('show-result');//clearing the ui after entering with new phone name for search
+//spinner
+const spinner = document.getElementById('spinner');
+spinner.style.display = 'none';
 const searchBtn = () => {
+    spinner.style.display = 'block'
     //clearing the textcontent of all phone click each time
     resultContainer.textContent = "";
     //clearing the textcontent of a single phone-details for new phone search;
@@ -11,29 +15,23 @@ const searchBtn = () => {
         .then(res => res.json())
         .then(data => showDetails(data));
     getInput.value = '';//clearing the input feild
-}
-
+};
 const showDetails = details => {
-    const detailContainer = { details }
-    // console.log(details);
-
     const notFound = document.getElementById('item-not-found');
     notFound.textContent = '';
     if (details.status === false) {
         notFound.innerHTML = `<h4 class="text-center text-danger">No phone found</h4>
-        `
+          `
         return;
     }
     let phoneCount = 0;
     const maxPhoneShow = 20;
     (details.data).forEach((detail) => {
-        console.log(detail)
-        // const stringify = JSON.stringify(detail);
-        // console.log('dsjk', stringify);
         if (phoneCount >= maxPhoneShow) {
-
             return;
         }
+        //hide spinner when finished the data loading
+        spinner.style.display = 'none';
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -52,7 +50,6 @@ const showDetails = details => {
 };
 
 const getPhoneId = id => {
-    // console.log(id);
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     fetch(url)
         .then(res => res.json())
