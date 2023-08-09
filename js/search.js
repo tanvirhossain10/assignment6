@@ -10,6 +10,10 @@ Example: https://openapi.programming-hero.com/api/phone/apple_iphone_13_pro_max-
 
 
 
+//adding show-more button
+const showMore = document.getElementById('show-all');
+showMore.style.display = 'none';
+
 const resultContainer = document.getElementById('show-result');//clearing the ui after entering with new phone name for search
 const searchBtn = () => {
     //clearing the textcontent of all phone click each time
@@ -58,6 +62,9 @@ const showDetails = detail => {
         resultContainer.appendChild(div);
         phoneCount++;
     });
+    if (phoneCount === maxPhoneShow) {
+        showMore.style.display = 'block'
+    }
 };
 
 const getPhoneId = id => {
