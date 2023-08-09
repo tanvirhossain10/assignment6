@@ -1,50 +1,37 @@
-/* URL Format: https://openapi.programming-hero.com/api/phones?search=${searchText}
-
-Example: https://openapi.programming-hero.com/api/phones?search=iphone
-
-Phone detail url:
-URL Format: https://openapi.programming-hero.com/api/phone/${id}
-
-
-Example: https://openapi.programming-hero.com/api/phone/apple_iphone_13_pro_max-11089 */
-
-
-
-//adding show-more button
-const showMore = document.getElementById('show-all');
-showMore.style.display = 'none';
-
+const getInput = document.getElementById('input-feild');
 const resultContainer = document.getElementById('show-result');//clearing the ui after entering with new phone name for search
 const searchBtn = () => {
     //clearing the textcontent of all phone click each time
     resultContainer.textContent = "";
     //clearing the textcontent of a single phone-details for new phone search;
     document.getElementById('phone-detail').textContent = '';
-    const getInput = document.getElementById('input-feild');
+
     const searchText = getInput.value;//taking the input value from site
-    fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
+    fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText.toLowerCase()}`)
         .then(res => res.json())
         .then(data => showDetails(data));
     getInput.value = '';//clearing the input feild
 }
 
-const showDetails = detail => {
-    console.log(detail);
+const showDetails = details => {
+    const detailContainer = { details }
+    // console.log(details);
 
     const notFound = document.getElementById('item-not-found');
     notFound.textContent = '';
-    if (detail.status === false) {
+    if (details.status === false) {
         notFound.innerHTML = `<h4 class="text-center text-danger">No phone found</h4>
         `
         return;
     }
     let phoneCount = 0;
     const maxPhoneShow = 20;
-    (detail.data).forEach((detail) => {
+    (details.data).forEach((detail) => {
         console.log(detail)
         // const stringify = JSON.stringify(detail);
         // console.log('dsjk', stringify);
         if (phoneCount >= maxPhoneShow) {
+
             return;
         }
         const div = document.createElement('div');
@@ -61,10 +48,7 @@ const showDetails = detail => {
         //appending div to the body
         resultContainer.appendChild(div);
         phoneCount++;
-    });
-    if (phoneCount === maxPhoneShow) {
-        showMore.style.display = 'block'
-    }
+    },);
 };
 
 const getPhoneId = id => {
