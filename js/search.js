@@ -58,7 +58,6 @@ const getPhoneId = id => {
 
 //taking function for display single phone full details
 const displayFullDetals = data => {
-    console.log(data)
     const div = document.getElementById('phone-detail');
     div.innerHTML = `
     <div class="card">
