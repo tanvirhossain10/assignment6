@@ -34,11 +34,15 @@ const showDetails = detail => {
         `
         return;
     }
-
+    let phoneCount = 0;
+    const maxPhoneShow = 20;
     (detail.data).forEach((detail) => {
         console.log(detail)
         // const stringify = JSON.stringify(detail);
-        // console.log('dsjk', stringify)
+        // console.log('dsjk', stringify);
+        if (phoneCount >= maxPhoneShow) {
+            return;
+        }
         const div = document.createElement('div');
         div.classList.add('col');
         div.innerHTML = `
@@ -52,6 +56,7 @@ const showDetails = detail => {
                     </div> `
         //appending div to the body
         resultContainer.appendChild(div);
+        phoneCount++;
     });
 };
 
@@ -69,7 +74,7 @@ const displayFullDetals = data => {
     const div = document.getElementById('phone-detail');
     div.innerHTML = `
     <div class="card">
-    <img src="${data.data.image}" class="card-img-top w-50 mx-auto" alt="...">
+    <img src="${data.data.image}" class="card-img-top w-75 mx-auto" alt="...">
     <div class="card-body">
         <h5 class="text-center">${data.data.name}</h5>
         <h5>${data.data.releaseDate ? data.data.releaseDate : 'Relase not found'}</h5>
